@@ -1,0 +1,704 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#11110f">
+  <meta name="description" content="Custom Minecraft models, skins, and textures made to order.">
+  <title>Blocksmith — Minecraft Models & Textures</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #11110f;
+      --surface: #1a1a17;
+      --surface-raised: #22221e;
+      --text: #f3f0e9;
+      --muted: #aaa69c;
+      --line: rgba(243, 240, 233, .14);
+      --accent: #c9a987;
+      --accent-ink: #17130f;
+      --header-bg: rgba(17, 17, 15, .78);
+      --shadow: 0 24px 70px rgba(0, 0, 0, .22);
+      --glass: rgba(30, 30, 27, .48);
+      --glass-strong: rgba(30, 30, 27, .68);
+      --glass-edge: rgba(255, 255, 255, .18);
+      --glass-shine: rgba(255, 255, 255, .12);
+    }
+
+    [data-theme="light"] {
+      color-scheme: light;
+      --bg: #f6f4ef;
+      --surface: #eeece6;
+      --surface-raised: #e7e4dc;
+      --text: #24231f;
+      --muted: #68665f;
+      --line: rgba(36, 35, 31, .16);
+      --accent: #8b6749;
+      --accent-ink: #fffaf3;
+      --header-bg: rgba(246, 244, 239, .84);
+      --shadow: 0 24px 70px rgba(38, 31, 22, .1);
+      --glass: rgba(255, 255, 255, .48);
+      --glass-strong: rgba(255, 255, 255, .72);
+      --glass-edge: rgba(255, 255, 255, .72);
+      --glass-shine: rgba(255, 255, 255, .8);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(ellipse at 10% 12%, rgba(201, 169, 135, .09), transparent 34rem),
+        radial-gradient(ellipse at 88% 55%, rgba(201, 169, 135, .07), transparent 38rem),
+        var(--bg);
+      color: var(--text);
+      font-family: "DM Sans", sans-serif;
+      font-size: 15px;
+      line-height: 1.65;
+      transition: background-color .25s ease, color .25s ease;
+    }
+    a { color: inherit; text-decoration: none; }
+    button, input, textarea { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    img { display: block; max-width: 100%; }
+    .wrap { width: min(1160px, calc(100% - 48px)); margin-inline: auto; }
+    .eyebrow {
+      margin: 0 0 14px;
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+    .serif { font-family: "Playfair Display", Georgia, serif; font-weight: 500; }
+    .section { padding: 112px 0; }
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 42px;
+    }
+    .section-heading h2 {
+      margin: 0;
+      font-size: clamp(38px, 5vw, 58px);
+      line-height: 1.08;
+      letter-spacing: -.04em;
+    }
+    .section-heading p { max-width: 360px; margin: 0; color: var(--muted); }
+
+    .site-header {
+      position: fixed;
+      z-index: 5;
+      inset: 0 0 auto;
+      background: var(--glass-strong);
+      border-bottom: 1px solid var(--glass-edge);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, .08);
+      backdrop-filter: blur(22px) saturate(145%);
+      -webkit-backdrop-filter: blur(22px) saturate(145%);
+    }
+    .nav {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .brand { display: inline-flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 700; letter-spacing: .08em; }
+    .brand-mark { width: 25px; height: 25px; border: 1px solid var(--accent); border-radius: 50%; display: grid; place-items: center; color: var(--accent); font-family: Georgia, serif; font-size: 14px; }
+    .nav-links { display: flex; align-items: center; gap: clamp(18px, 3vw, 36px); }
+    .nav-links a { color: var(--muted); font-size: 13px; transition: color .2s ease; }
+    .nav-links a:hover, .nav-links a:focus-visible { color: var(--text); }
+    .theme-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 9px 13px;
+      background: transparent;
+      color: var(--text);
+      cursor: pointer;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+    .theme-toggle:hover { border-color: var(--accent); }
+    .theme-icon { color: var(--accent); font-size: 15px; }
+
+    .hero {
+      position: relative;
+      min-height: min(850px, 100svh);
+      min-height: max(690px, 100svh);
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      isolation: isolate;
+      background-color: #20251b;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, .035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, .035) 1px, transparent 1px),
+        radial-gradient(ellipse at 75% 35%, rgba(116, 153, 78, .28), transparent 42%),
+        linear-gradient(135deg, #293124, #141612 72%);
+      background-size: 32px 32px, 32px 32px, auto, auto;
+    }
+    .hero-video, .hero-shade { position: absolute; z-index: -1; inset: 0; width: 100%; height: 100%; }
+    .hero-video { object-fit: cover; }
+    .hero-shade { background: linear-gradient(90deg, rgba(12, 15, 11, .82) 0%, rgba(12, 15, 11, .64) 53%, rgba(12, 15, 11, .38) 100%), linear-gradient(0deg, rgba(12, 15, 11, .42), transparent 55%); }
+    .hero-content {
+      max-width: 690px;
+      padding: 48px 52px 52px;
+      border: 1px solid rgba(255, 255, 255, .28);
+      border-radius: 8px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, .16), rgba(255, 255, 255, .045) 58%, rgba(255, 255, 255, .08));
+      box-shadow: 0 24px 80px rgba(0, 0, 0, .16), inset 0 1px 0 rgba(255, 255, 255, .2);
+      color: #fff;
+      backdrop-filter: blur(18px) saturate(130%);
+      -webkit-backdrop-filter: blur(18px) saturate(130%);
+    }
+    .hero .eyebrow { color: #e4c9a8; }
+    .hero h1 { margin: 0; font-size: clamp(58px, 9.5vw, 112px); line-height: .98; letter-spacing: -.055em; }
+    .hero h1 em { color: #e4c9a8; font-weight: 500; }
+    .hero-copy { max-width: 480px; margin: 26px 0 32px; color: rgba(255,255,255,.82); font-size: 16px; }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 48px;
+      padding: 0 21px;
+      border: 1px solid var(--accent);
+      border-radius: 2px;
+      background: var(--accent);
+      color: var(--accent-ink);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .04em;
+      transition: transform .2s ease, background-color .2s ease;
+    }
+    .button:hover { transform: translateY(-2px); background: transparent; color: #fff; }
+    .hero-note { position: absolute; right: max(24px, calc((100% - 1160px) / 2)); bottom: 38px; color: rgba(255,255,255,.76); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
+    .hero-note::before { content: ""; display: inline-block; width: 34px; height: 1px; margin: 0 12px 4px 0; background: #e4c9a8; }
+
+    .intro {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 12%;
+      align-items: center;
+      padding: clamp(30px, 6vw, 72px);
+      border: 1px solid var(--glass-edge);
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--glass), rgba(255, 255, 255, .025));
+      box-shadow: var(--shadow), inset 0 1px 0 var(--glass-shine);
+      backdrop-filter: blur(18px) saturate(130%);
+      -webkit-backdrop-filter: blur(18px) saturate(130%);
+    }
+    .intro h2 { margin: 0; max-width: 470px; font-size: clamp(38px, 5vw, 58px); line-height: 1.1; letter-spacing: -.04em; }
+    .intro-copy { color: var(--muted); max-width: 490px; }
+    .intro-copy p { margin: 0 0 18px; }
+    .text-link { display: inline-flex; align-items: center; gap: 11px; margin-top: 8px; color: var(--text); font-size: 12px; font-weight: 700; }
+    .text-link span { color: var(--accent); transition: transform .2s ease; }
+    .text-link:hover span { transform: translateX(4px); }
+
+    .work-section { background: linear-gradient(145deg, rgba(255, 255, 255, .035), transparent 72%); }
+    .work-section .wrap { width: min(1800px, calc(100% - 32px)); }
+    .gallery-carousel {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--glass-edge);
+      border-radius: 8px;
+      background: linear-gradient(145deg, var(--glass-strong), var(--glass));
+      box-shadow: var(--shadow), inset 0 1px 0 var(--glass-shine);
+    }
+    .carousel-stage { position: relative; overflow: hidden; background: var(--surface-raised); }
+    .carousel-image {
+      display: block;
+      width: 100%;
+      height: clamp(340px, 48vw, 640px);
+      object-fit: contain;
+      background: #e6e8df;
+      transition: opacity .2s ease, transform .2s ease;
+    }
+    .carousel-image.is-exiting-next { opacity: 0; transform: translateX(-28px); }
+    .carousel-image.is-exiting-previous { opacity: 0; transform: translateX(28px); }
+    .carousel-image.is-entering-next { opacity: 0; transform: translateX(28px); }
+    .carousel-image.is-entering-previous { opacity: 0; transform: translateX(-28px); }
+    .carousel-controls {
+      display: grid;
+      grid-template-columns: 42px 1fr 42px;
+      align-items: center;
+      gap: 14px;
+      width: min(240px, 100%);
+      margin: 0 auto;
+      padding: 14px 0;
+    }
+    .carousel-control {
+      display: grid;
+      width: 42px;
+      height: 42px;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: var(--glass);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 19px;
+      transition: border-color .2s ease, background-color .2s ease, transform .2s ease;
+    }
+    .carousel-control:hover { transform: translateY(-1px); border-color: var(--accent); background: var(--surface-raised); }
+    .carousel-control:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+    .carousel-count { margin: 0; color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; text-align: center; }
+    [data-theme="light"] .carousel-image { background: #f0eee7; }
+
+    .pricing-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; }
+    .price-card {
+      position: relative;
+      grid-column: span 2;
+      padding: 32px 28px 30px;
+      border: 1px solid var(--glass-edge);
+      border-radius: 6px;
+      background: linear-gradient(145deg, var(--glass-strong), var(--glass));
+      box-shadow: var(--shadow), inset 0 1px 0 var(--glass-shine);
+      backdrop-filter: blur(18px) saturate(130%);
+      -webkit-backdrop-filter: blur(18px) saturate(130%);
+    }
+    .price-card:nth-child(4) { grid-column: 2 / span 2; }
+    .price-card:nth-child(5) { grid-column: 4 / span 2; }
+    .price-card.featured { border-color: var(--accent); background: linear-gradient(145deg, var(--glass-strong), rgba(201, 169, 135, .12)); }
+    .price-card h3 { margin: 0 0 7px; font-size: 19px; font-weight: 600; }
+    .price-card .description { min-height: 48px; margin: 0; color: var(--muted); font-size: 13px; }
+    .price { margin: 26px 0 20px; font-family: "Playfair Display", Georgia, serif; font-size: 42px; line-height: 1; }
+    .price small { color: var(--muted); font-family: "DM Sans", sans-serif; font-size: 12px; }
+    .price-card ul { min-height: 142px; margin: 0; padding: 20px 0; border-top: 1px solid var(--line); list-style: none; }
+    .price-card li { margin: 8px 0; color: var(--muted); font-size: 13px; }
+    .price-card li::before { content: "—"; margin-right: 9px; color: var(--accent); }
+    .price-card .button { width: 100%; }
+    .price-card:not(.featured) .button { border-color: var(--line); background: transparent; color: var(--text); }
+    .price-card:not(.featured) .button:hover { border-color: var(--accent); }
+    .popular { position: absolute; top: -12px; right: 18px; padding: 4px 10px; background: var(--accent); color: var(--accent-ink); font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+
+    .contact-section { background: transparent; }
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      padding: clamp(30px, 6vw, 72px);
+      border: 1px solid var(--glass-edge);
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--glass), rgba(255, 255, 255, .025));
+      box-shadow: var(--shadow), inset 0 1px 0 var(--glass-shine);
+      backdrop-filter: blur(18px) saturate(130%);
+      -webkit-backdrop-filter: blur(18px) saturate(130%);
+    }
+    .contact-copy { max-width: 700px; margin: 0 auto; text-align: center; }
+    .contact-copy h2 { margin: 0 0 18px; font-size: clamp(40px, 5vw, 60px); line-height: 1.05; letter-spacing: -.04em; }
+    .contact-copy > p:not(.eyebrow) { max-width: 540px; margin: 0 auto; color: var(--muted); }
+    .contact-details { display: grid; justify-items: center; gap: 5px; margin-top: 32px; }
+    .contact-details a { width: fit-content; color: var(--text); font-size: 16px; }
+    .contact-details a:hover { color: var(--accent); }
+    .contact-details p { margin: 0; color: var(--text); font-size: 14px; }
+    .contact-details span { margin-right: 9px; color: var(--accent); }
+
+    footer { padding: 23px 0; }
+    .footer-row { display: flex; justify-content: space-between; align-items: center; gap: 20px; color: var(--muted); font-size: 11px; }
+    .footer-row a:hover { color: var(--text); }
+
+    @media (max-width: 1000px) {
+      .pricing-grid { grid-template-columns: repeat(2, 1fr); }
+      .price-card, .price-card:nth-child(4), .price-card:nth-child(5) { grid-column: auto; }
+    }
+
+    @media (max-width: 760px) {
+      .wrap { width: min(100% - 36px, 560px); }
+      .nav { min-height: 68px; }
+      .nav-links { gap: 14px; }
+      .nav-links a { font-size: 12px; }
+      .nav-links a:nth-child(2) { display: none; }
+      .theme-toggle { padding: 8px 10px; }
+      .theme-label { display: none; }
+      .hero { min-height: 760px; min-height: 100svh; }
+      .hero-content { padding: 36px 28px 40px; }
+      .hero h1 { font-size: clamp(58px, 15vw, 86px); }
+      .hero-copy { max-width: 380px; font-size: 14px; }
+      .hero-note { right: 18px; bottom: 24px; font-size: 9px; }
+      .section { padding: 78px 0; }
+      .section-heading { align-items: start; flex-direction: column; margin-bottom: 28px; }
+      .intro { grid-template-columns: 1fr; gap: 26px; }
+      .intro, .contact-layout { padding: 30px 24px; }
+      .work-section .wrap { width: min(100% - 36px, 760px); }
+      .carousel-image { height: clamp(280px, 68vw, 500px); }
+      .pricing-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+      .price-card { padding: 27px 23px; }
+      .price-card .description, .price-card ul { min-height: 0; }
+    }
+    @media (max-width: 420px) {
+      .brand { gap: 7px; font-size: 12px; }
+      .brand-mark { width: 22px; height: 22px; }
+      .nav-links { gap: 11px; }
+      .carousel-image { height: 280px; }
+      .pricing-grid { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+      .hero-video { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav wrap" aria-label="Main navigation">
+      <a class="brand" href="#home" aria-label="Blocksmith home"><span class="brand-mark">B</span> BLOCKSMITH</a>
+      <div class="nav-links">
+        <a href="#about">About</a>
+        <a href="#work">Gallery</a>
+        <a href="#pricing">Prices</a>
+        <a href="#contact">Contact</a>
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to light mode" aria-pressed="false">
+          <span class="theme-icon" aria-hidden="true">☼</span><span class="theme-label">Light mode</span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="home" aria-labelledby="hero-title">
+      <video class="hero-video" autoplay muted loop playsinline aria-hidden="true">
+        <source src="https://videos.pexels.com/video-files/3195394/3195394-hd_1920_1080_25fps.mp4" type="video/mp4">
+      </video>
+      <div class="hero-shade" aria-hidden="true"></div>
+      <div class="wrap hero-content">
+        <p class="eyebrow">Minecraft modeler & texture artist</p>
+        <h1 class="serif" id="hero-title">Built block<br><em>by block.</em></h1>
+        <p class="hero-copy">Custom Minecraft models, skins, and textures made with care. From a tiny item to a one-of-a-kind mob, let’s bring your idea into the game.</p>
+        <a class="button" href="#work">See my creations <span aria-hidden="true">↗</span></a>
+      </div>
+      <div class="hero-note">Custom Minecraft commissions · Open for requests</div>
+    </section>
+
+    <section class="section wrap" id="about">
+      <div class="intro">
+        <div>
+          <p class="eyebrow">About my work</p>
+          <h2 class="serif">Ideas made one block at a time.</h2>
+        </div>
+        <div class="intro-copy">
+          <p>I create custom Minecraft models for players, creators, and servers. I work on small items and blocks, mobs and armor, character skins, and standalone textures.</p>
+          <p>Have a reference or just an idea? Send it over and we can figure out the right shape, style, and price together.</p>
+          <a class="text-link" href="#contact">Tell me what you have in mind <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section work-section" id="small-models">
+      <div class="wrap">
+        <div class="section-heading">
+          <div><p class="eyebrow">Items & blocks</p><h2 class="serif">Small models</h2></div>
+          <p>Items and block-sized builds, shown in their original animated GIFs.</p>
+        </div>
+        <div class="gallery-carousel" data-carousel="small" role="group" aria-label="Small models">
+          <div class="carousel-stage">
+            <img class="carousel-image" alt="Animated Minecraft small model" loading="lazy" decoding="async">
+          </div>
+          <div class="carousel-controls">
+            <button class="carousel-control" type="button" data-previous aria-label="Previous small model">←</button>
+            <p class="carousel-count" aria-live="polite">1 / 3</p>
+            <button class="carousel-control" type="button" data-next aria-label="Next small model">→</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section work-section" id="work">
+      <div class="wrap">
+        <div class="section-heading">
+          <div><p class="eyebrow">Mobs & armor</p><h2 class="serif">My creations</h2></div>
+          <p>Browse each model one at a time. Only the gallery currently in view plays its GIF.</p>
+        </div>
+        <div class="gallery-carousel" data-carousel="creations" role="group" aria-label="My creations">
+          <div class="carousel-stage">
+            <img class="carousel-image" alt="Animated Minecraft mob and armor model" loading="lazy" decoding="async">
+          </div>
+          <div class="carousel-controls">
+            <button class="carousel-control" type="button" data-previous aria-label="Previous creation">←</button>
+            <p class="carousel-count" aria-live="polite">1 / 11</p>
+            <button class="carousel-control" type="button" data-next aria-label="Next creation">→</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section work-section" id="low-poly">
+      <div class="wrap">
+        <div class="section-heading">
+          <div><p class="eyebrow">A different style</p><h2 class="serif">Low-poly models</h2></div>
+          <p>Low-poly commissions range from $5 to $25 depending on the model. <a class="text-link" href="#pricing">See all prices <span aria-hidden="true">→</span></a></p>
+        </div>
+        <div class="gallery-carousel" data-carousel="lowpoly" role="group" aria-label="Low-poly models">
+          <div class="carousel-stage">
+            <img class="carousel-image" alt="Animated low-poly Minecraft model" loading="lazy" decoding="async">
+          </div>
+          <div class="carousel-controls">
+            <button class="carousel-control" type="button" data-previous aria-label="Previous low-poly model">←</button>
+            <p class="carousel-count" aria-live="polite">1 / 4</p>
+            <button class="carousel-control" type="button" data-next aria-label="Next low-poly model">→</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section wrap" id="pricing">
+      <div class="section-heading">
+        <div><p class="eyebrow">Straightforward pricing</p><h2 class="serif">Commission prices</h2></div>
+        <p>Final price depends on detail and complexity. Send me your idea for a quote.</p>
+      </div>
+      <div class="pricing-grid">
+        <article class="price-card">
+          <h3>Small model</h3>
+          <p class="description">Items, blocks, and other small builds.</p>
+          <p class="price">$2–$8 <small>/ model</small></p>
+          <ul><li>Items & blocks</li><li>Price depends on detail</li><li>Made to your reference</li></ul>
+          <a class="button" href="#contact">Request a model <span aria-hidden="true">→</span></a>
+        </article>
+        <article class="price-card featured">
+          <span class="popular">Custom builds</span>
+          <h3>Mobs & armor</h3>
+          <p class="description">Character models, armor, mobs, and more.</p>
+          <p class="price">$4–$15 <small>/ model</small></p>
+          <ul><li>Mobs & characters</li><li>Armor and related models</li><li>Price depends on detail</li></ul>
+          <a class="button" href="#contact">Request a model <span aria-hidden="true">→</span></a>
+        </article>
+        <article class="price-card">
+          <h3>Skin</h3>
+          <p class="description">A custom Minecraft character skin.</p>
+          <p class="price">$5 <small>/ skin</small></p>
+          <ul><li>One custom skin</li><li>Based on your idea</li><li>Ready to use in-game</li></ul>
+          <a class="button" href="#contact">Request a skin <span aria-hidden="true">→</span></a>
+        </article>
+        <article class="price-card">
+          <h3>Texture only</h3>
+          <p class="description">A texture made for your model or project.</p>
+          <p class="price">$2–$8 <small>/ texture</small></p>
+          <ul><li>Texture work only</li><li>Price depends on detail</li><li>Share your reference</li></ul>
+          <a class="button" href="#contact">Request a texture <span aria-hidden="true">→</span></a>
+        </article>
+        <article class="price-card">
+          <h3>Low-poly model</h3>
+          <p class="description">Custom low-poly models in a different style.</p>
+          <p class="price">$5–$25 <small>/ model</small></p>
+          <ul><li>Low-poly style</li><li>Price depends on detail</li><li>Made to your reference</li></ul>
+          <a class="button" href="#contact">Request a model <span aria-hidden="true">→</span></a>
+        </article>
+      </div>
+    </section>
+
+    <section class="section contact-section" id="contact">
+      <div class="wrap contact-layout">
+        <div class="contact-copy">
+          <p class="eyebrow">Commissions are open</p>
+          <h2 class="serif">Let’s build your idea.</h2>
+          <p>Email me about your idea and I’ll reply to confirm the details and price.</p>
+          <div class="contact-details">
+            <a href="mailto:Antotosiek@gmail.com"><span aria-hidden="true">✳</span> Antotosiek@gmail.com</a>
+            <p><span aria-hidden="true">✦</span> Discord: @Antotosiek</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-row">
+      <a class="brand" href="#home"><span class="brand-mark">B</span> BLOCKSMITH</a>
+      <span>© <span id="year"></span> Blocksmith</span>
+      <a href="#home">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <script>
+    const root = document.documentElement;
+    const themeToggle = document.getElementById("theme-toggle");
+    const themeLabel = themeToggle.querySelector(".theme-label");
+    const themeIcon = themeToggle.querySelector(".theme-icon");
+    const savedTheme = localStorage.getItem("mira-sol-theme");
+
+    if (savedTheme === "light" || savedTheme === "dark") {
+      root.dataset.theme = savedTheme;
+    }
+
+    function updateThemeControl() {
+      const isDark = root.dataset.theme === "dark";
+      themeToggle.setAttribute("aria-pressed", String(!isDark));
+      themeToggle.setAttribute("aria-label", `Switch to ${isDark ? "light" : "dark"} mode`);
+      themeLabel.textContent = isDark ? "Light mode" : "Dark mode";
+      themeIcon.textContent = isDark ? "☼" : "☾";
+    }
+
+    updateThemeControl();
+    themeToggle.addEventListener("click", () => {
+      root.dataset.theme = root.dataset.theme === "dark" ? "light" : "dark";
+      localStorage.setItem("mira-sol-theme", root.dataset.theme);
+      updateThemeControl();
+    });
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    const carouselItems = {
+      small: [
+        { src: "assets/gallery/rock.gif", alt: "Animated Minecraft small model" },
+        { src: "assets/gallery/ring.gif", alt: "Animated Minecraft small model" },
+        { src: "assets/gallery/big-ring.gif", alt: "Animated Minecraft small model" }
+      ],
+      creations: [
+        { src: "assets/gallery/helmet.gif", alt: "Animated Minecraft mob and armor model" },
+        { src: "assets/gallery/blazing.gif", alt: "Animated Minecraft mob and armor model" },
+        { src: "assets/gallery/rock.gif", alt: "Animated Minecraft mob and armor model" },
+        { src: "assets/gallery/skeleton-johny.gif", alt: "Animated Minecraft mob and armor model" },
+        { src: "assets/gallery/lick.gif", alt: "Animated Minecraft mob and armor model" },
+        { src: "assets/gallery/jailor.gif", alt: "Animated Minecraft mob and armor model" },
+        { src: "assets/gallery/armor.gif", alt: "Animated Minecraft mob and armor model" },
+        { src: "assets/gallery/hat2.gif", alt: "Animated Minecraft mob and armor model" },
+        { src: "assets/gallery/dog.gif", alt: "Animated Minecraft mob and armor model" },
+        { src: "assets/gallery/wandering-trader.gif", alt: "Animated Minecraft mob and armor model" },
+        { src: "assets/gallery/hollowedskinbushy.gif", alt: "Animated Minecraft mob and armor model" }
+      ],
+      lowpoly: [
+        { src: "assets/gallery/voue.gif", alt: "Animated low-poly Minecraft model" },
+        { src: "assets/gallery/stanley.gif", alt: "Animated low-poly Minecraft model" },
+        { src: "assets/gallery/ms4bit.gif", alt: "Animated low-poly Minecraft model" },
+        { src: "assets/gallery/verity.gif", alt: "Animated low-poly Minecraft model" }
+      ]
+    };
+
+    const carouselStates = Array.from(document.querySelectorAll("[data-carousel]"), (element) => {
+      const items = carouselItems[element.dataset.carousel];
+      if (!items || items.length === 0) {
+        throw new Error(`Missing slides for carousel: ${element.dataset.carousel}`);
+      }
+
+      const state = {
+        element,
+        items,
+        index: 0,
+        intersectionRatio: 0,
+        isActive: false,
+        isTransitioning: false,
+        transitionTimer: 0,
+        image: element.querySelector(".carousel-image"),
+        count: element.querySelector(".carousel-count")
+      };
+
+      if (!state.image || !state.count) {
+        throw new Error(`Incomplete carousel markup: ${element.dataset.carousel}`);
+      }
+
+      return state;
+    });
+
+    function renderCarouselSlide(state, index, direction, animate) {
+      state.index = index;
+      const item = state.items[index];
+      state.count.textContent = `${index + 1} / ${state.items.length}`;
+      state.image.alt = item.alt;
+
+      if (!state.isActive) {
+        state.image.removeAttribute("src");
+        return;
+      }
+
+      if (state.image.getAttribute("src") === item.src) {
+        return;
+      }
+
+      if (!animate) {
+        state.image.src = item.src;
+        return;
+      }
+
+      state.isTransitioning = true;
+      const exitClass = direction > 0 ? "is-exiting-next" : "is-exiting-previous";
+      const enterClass = direction > 0 ? "is-entering-next" : "is-entering-previous";
+      state.image.classList.add(exitClass);
+      state.transitionTimer = window.setTimeout(() => {
+        state.transitionTimer = 0;
+        state.image.classList.remove(exitClass);
+        if (state.isActive) {
+          state.image.classList.add(enterClass);
+          state.image.src = item.src;
+          window.requestAnimationFrame(() => {
+            window.requestAnimationFrame(() => state.image.classList.remove(enterClass));
+          });
+        }
+        state.isTransitioning = false;
+      }, 180);
+    }
+
+    function setCarouselActive(state, isActive) {
+      if (state.isActive === isActive) {
+        return;
+      }
+      state.isActive = isActive;
+      if (isActive) {
+        renderCarouselSlide(state, state.index, 0, false);
+      } else {
+        window.clearTimeout(state.transitionTimer);
+        state.transitionTimer = 0;
+        state.isTransitioning = false;
+        state.image.classList.remove("is-exiting-next", "is-exiting-previous", "is-entering-next", "is-entering-previous");
+        state.image.removeAttribute("src");
+      }
+    }
+
+    function updateVisibleCarousel() {
+      let activeState = null;
+      for (const state of carouselStates) {
+        if (state.intersectionRatio >= 0.2 && (!activeState || state.intersectionRatio > activeState.intersectionRatio)) {
+          activeState = state;
+        }
+      }
+      for (const state of carouselStates) {
+        setCarouselActive(state, state === activeState);
+      }
+    }
+
+    if ("IntersectionObserver" in window) {
+      const carouselObserver = new IntersectionObserver((entries) => {
+        for (const entry of entries) {
+          const state = carouselStates.find((carousel) => carousel.element === entry.target);
+          if (!state) {
+            throw new Error("Observed carousel has no matching state");
+          }
+          state.intersectionRatio = entry.intersectionRatio;
+        }
+        updateVisibleCarousel();
+      }, { threshold: [0, 0.2, 0.4, 0.6, 0.8, 1] });
+
+      for (const state of carouselStates) {
+        carouselObserver.observe(state.element);
+      }
+    } else {
+      for (const state of carouselStates) {
+        setCarouselActive(state, true);
+      }
+    }
+
+    for (const state of carouselStates) {
+      state.element.querySelector("[data-previous]").addEventListener("click", () => {
+        if (!state.isActive || state.isTransitioning) {
+          return;
+        }
+        const index = (state.index - 1 + state.items.length) % state.items.length;
+        renderCarouselSlide(state, index, -1, true);
+      });
+      state.element.querySelector("[data-next]").addEventListener("click", () => {
+        if (!state.isActive || state.isTransitioning) {
+          return;
+        }
+        const index = (state.index + 1) % state.items.length;
+        renderCarouselSlide(state, index, 1, true);
+      });
+    }
+
+  </script>
+</body>
+</html>
